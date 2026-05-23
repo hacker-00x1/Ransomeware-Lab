@@ -283,9 +283,3 @@ Understanding the attack mechanism is essential for building strong defenses.
 * Add backup simulation
 * Add audit mode (dry run without encryption)
 * Add GUI interface for demonstration
-
----
-
-##  Author
-### Wambita Sheila Fana
-Cybersecurity & systems learning project focused on cryptography and secure software engineering.

